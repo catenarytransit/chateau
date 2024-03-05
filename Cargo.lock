@@ -30,6 +30,18 @@ checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 name = "chateau"
 version = "0.1.0"
 dependencies = [
+ "dmfr",
+ "regress",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "dmfr"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bb7f12476a7878078ac22b48fd088d5ec10e0b47144c890951537dc1f360a728"
+dependencies = [
  "regress",
  "serde",
  "serde_json",

@@ -1,5 +1,4 @@
 use std::fs;
-mod dmfr;
 use dmfr::*;
 use serde_json::Error as SerdeError;
 use std::collections::{HashMap, HashSet};
