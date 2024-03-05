@@ -31,6 +31,7 @@ name = "chateau"
 version = "0.1.0"
 dependencies = [
  "dmfr",
+ "dmfr-folder-reader",
  "regress",
  "serde",
  "serde_json",
@@ -43,6 +44,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "bb7f12476a7878078ac22b48fd088d5ec10e0b47144c890951537dc1f360a728"
 dependencies = [
  "regress",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "dmfr-folder-reader"
+version = "0.1.0"
+source = "git+https://github.com/catenarytransit/dmfr-folder-reader#a009f6827a1ba5aa08f435cf5f0f9b7aa1ed63bd"
+dependencies = [
+ "dmfr",
  "serde",
  "serde_json",
 ]
