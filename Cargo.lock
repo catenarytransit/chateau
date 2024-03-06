@@ -51,7 +51,7 @@ dependencies = [
 [[package]]
 name = "dmfr-folder-reader"
 version = "0.1.0"
-source = "git+https://github.com/catenarytransit/dmfr-folder-reader#a009f6827a1ba5aa08f435cf5f0f9b7aa1ed63bd"
+source = "git+https://github.com/catenarytransit/dmfr-folder-reader#e3f96aca62dee2aaee952bec2f0935e98c7dd336"
 dependencies = [
  "dmfr",
  "serde",

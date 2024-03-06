@@ -35,6 +35,8 @@ fn main() {
 
     let mut counter_single_lords:usize = 0;
     let mut counter_single_lords_feeds:usize = 0;
+
+    let mut feeds_under_single_lord: HashSet<String> = HashSet::new();
     
     for (operator_id, feed_list) in dmfr_result.operator_to_feed_hashmap {
         let mut single_lord_status: bool = true;
@@ -42,25 +44,32 @@ fn main() {
         for feed in feed_list.iter() {
             let feed_id = feed.feed_onestop_id.clone();
 
-            if let Some(feed_id) = feed_id { 
+          //  println!("{}: {:?}", operator_id, feed);
+
+             
                 let operators_list = dmfr_result.feed_to_operator_pairs_hashmap.get(&feed_id);
 
                 if let Some(operators_list) = operators_list {
                     if operators_list.len() > 1 {
                         single_lord_status = false;
+                        
+                       // println!("------\n{:#?}", operators_list);
+                    } else {
                     }
                 } else {
                     eprintln!("Unable to find the operators for the feed {}", &feed_id);
                 }
-            } else {
-                eprintln!("Unable to find the feed id inside {}", operator_id);
-            }
-
         }
 
         if (single_lord_status == true) {
             counter_single_lords = counter_single_lords + 1;
             counter_single_lords_feeds = counter_single_lords_feeds + feed_list.len();
+
+            for feed in feed_list.iter() {
+                feeds_under_single_lord.insert(feed.feed_onestop_id.clone());
+
+                let chateau_id = operator_id.clone();
+            }
         }
     }
 
