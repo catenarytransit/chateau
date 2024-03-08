@@ -22,12 +22,12 @@ pub type OperatorId = String;
 
 fn main() {
     
-    let dmfr_result = dmfr_folder_reader::read_folders("transitland-atlas/feeds");
+    let dmfr_result = dmfr_folder_reader::read_folders("transitland-atlas/");
     //PRE PROCESSING DONE!!!
 
     //count number of feeds
 
-    println!("size of dataset: {} feeds", dmfr_result.feed_hashmap.len());
+    println!("size of dataset: {} feeds, {} operators", dmfr_result.feed_hashmap.len(), dmfr_result.operator_hashmap.len());
 
     // start by identifying set groups that do not have conflicting operators
 
@@ -73,5 +73,5 @@ fn main() {
         }
     }
 
-    println!("{} with single lords, a total of {} feeds ", counter_single_lords, counter_single_lords_feeds );
+    println!("{} operators with single lords, a total of {} feeds ", counter_single_lords, counter_single_lords_feeds );
 }
