@@ -121,6 +121,9 @@ pub fn chateau() -> HashMap<String, Chateau> {
         counter_single_lords, counter_single_lords_feeds
     );
 
+    //Perform depth first search
+    //visit every tree and mark already visited feeds and operators using a stack and already seen list?
+
     chateaus
 }
 
