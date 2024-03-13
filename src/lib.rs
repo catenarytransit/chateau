@@ -3,6 +3,7 @@ use serde_json::Error as SerdeError;
 use std::collections::{HashMap, HashSet};
 use std::fs;
 use std::sync::Arc;
+use dmfr_folder_reader::*;
 
 #[derive(Debug, Clone)]
 pub struct OperatorPairInfo {
@@ -74,7 +75,7 @@ pub fn chateau() -> HashMap<String, Chateau> {
     let mut feeds_under_single_lord: HashSet<String> = HashSet::new();
     let mut operators_single_lord: HashSet<String> = HashSet::new();
 
-    for (operator_id, feed_list) in dmfr_result.operator_to_feed_hashmap {
+    for (operator_id, feed_list) in &dmfr_result.operator_to_feed_hashmap {
         let mut single_lord_status: bool = true;
 
         for feed in feed_list.iter() {
@@ -124,7 +125,27 @@ pub fn chateau() -> HashMap<String, Chateau> {
     //Perform depth first search
     //visit every tree and mark already visited feeds and operators using a stack and already seen list?
 
+    for (operator_id, _) in &dmfr_result.operator_to_feed_hashmap {
+        if (!operators_single_lord.contains(operator_id)) {
+           // println!("{:?}", feed_list);
+           // println!("{}", &operator_id);
+
+           let mut current_operator_stack: HashSet<String> = HashSet::new();
+           let mut current_feed_stack: HashSet<String> = HashSet::new();
+
+           dfs_operator(&operator_id, &dmfr_result, &mut current_operator_stack, &mut current_feed_stack);
+        }
+    }
+
     chateaus
+}
+
+fn dfs_operator(operator_id: &str,dmfr_result: &ReturnDmfrAnalysis, current_operator_stack: &mut HashSet<String>, current_feed_stack: &mut HashSet<String>) {
+    
+}
+
+fn dfs_feed(operator_id: &str,dmfr_result: &ReturnDmfrAnalysis, current_operator_stack: &mut HashSet<String>, current_feed_stack: &mut HashSet<String>) {
+    
 }
 
 #[cfg(test)]
