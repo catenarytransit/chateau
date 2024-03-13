@@ -166,7 +166,7 @@ pub fn chateau() -> HashMap<String, Chateau> {
             });
             },
             dmfr::FeedSpec::GtfsRt => {
-              println!("{} is GTFS Realtime and not assigned to a Chateau", feed_id);
+              //println!("{} is GTFS Realtime and not assigned to a Chateau", feed_id);
               counter_of_unassigned_rt_feeds = counter_of_unassigned_rt_feeds + 1;
             }
             _ => {}
