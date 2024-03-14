@@ -149,8 +149,8 @@ pub fn chateau(dmfr_result: &ReturnDmfrAnalysis) -> HashMap<String, Chateau> {
     let mut counter_of_unassigned_feeds: u16 = 0;
     let mut counter_of_unassigned_rt_feeds: u16 = 0;
 
-    for (feed_id, feed) in dmfr_result.feed_hashmap {
-        if !already_assigned_feeds.contains(&feed_id) {
+    for (feed_id, feed) in &dmfr_result.feed_hashmap {
+        if !already_assigned_feeds.contains(feed_id) {
            match feed.spec {
             dmfr::FeedSpec::Gtfs => { 
               //  println!("{} is GTFS Schedule and not assigned to a Chateau", feed_id);
@@ -161,7 +161,7 @@ pub fn chateau(dmfr_result: &ReturnDmfrAnalysis) -> HashMap<String, Chateau> {
               chateaus.insert(chateau_id.clone(), Chateau {
                 chateau_name:  chateau_id.clone(),
                 realtime_feeds: HashSet::new(),
-                static_feeds: HashSet::from_iter([feed_id])
+                static_feeds: HashSet::from_iter([feed_id.clone()])
             });
             },
             dmfr::FeedSpec::GtfsRt => {
