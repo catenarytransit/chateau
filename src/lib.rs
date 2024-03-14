@@ -80,8 +80,7 @@ pub fn classify_feed_list_raw(list_of_feeds: &Vec<String>, dmfr_result_feeds: &H
     }
 }
 
-pub fn chateau() -> HashMap<String, Chateau> {
-    let dmfr_result = dmfr_folder_reader::read_folders("transitland-atlas/");
+pub fn chateau(dmfr_result: &ReturnDmfrAnalysis) -> HashMap<String, Chateau> {
     //PRE PROCESSING DONE!!!
 
     //count number of feeds
@@ -254,7 +253,8 @@ mod tests {
 
     #[test]
     fn test() {
-        let chateau_result = chateau();
+        let dmfr_result = dmfr_folder_reader::read_folders("transitland-atlas/");
+        let chateau_result = chateau(&dmfr_result);
 
         std::fs::write("./chateau-result.txt", format!("{:#?}", chateau_result)).expect("Unable to write test contents");
 
