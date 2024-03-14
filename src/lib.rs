@@ -134,8 +134,8 @@ pub fn chateau() -> HashMap<String, Chateau> {
 
            let classification_result = classify_feed_list_raw(&feed_list, &dmfr_result.feed_hashmap);
 
-                chateaus.insert(chateau_id, Chateau {
-                    chateau_name: operator_id.clone(),
+                chateaus.insert(chateau_id.clone(), Chateau {
+                    chateau_name: chateau_id.clone(),
                     realtime_feeds: classification_result.realtime_feeds,
                     static_feeds: classification_result.static_feeds
                 });
@@ -204,6 +204,14 @@ fn dfs_feed(feed_id: &str,dmfr_result: &ReturnDmfrAnalysis, current_operator_sta
 }
 
 fn determine_chateau_name(current_operator_stack: &HashSet<String>, current_feed_stack: &HashSet<String>) -> String {
+    if current_feed_stack.contains("f-9mu-mts") {
+        return String::from("san-diego-mts");
+    }
+
+    if current_feed_stack.contains("f-9-amtrak~amtrakcalifornia~amtrakcharteredvehicle") {
+        return String::from("amtrak");
+    }
+    
     if current_operator_stack.len() == 1 {
         for operator_id in current_operator_stack.iter() {
             return name_chateau_from_id(operator_id);
