@@ -200,7 +200,7 @@ pub fn chateau(dmfr_result: &ReturnDmfrAnalysis) -> HashMap<String, Chateau> {
                     counter_of_unassigned_feeds = counter_of_unassigned_feeds + 1;
 
                     let chateau_id = name_chateau_from_id(&feed_id);
-
+                    if !chateaus.contains_key(&chateau_id) {
                     chateaus.insert(
                         chateau_id.clone(),
                         Chateau {
@@ -209,6 +209,9 @@ pub fn chateau(dmfr_result: &ReturnDmfrAnalysis) -> HashMap<String, Chateau> {
                             static_feeds: HashSet::from_iter([feed_id.clone()]),
                         },
                     );
+                } else {
+                    eprintln!("Chateau {} already exists, trying to insert {:?}",chateau_id,feed_id);
+                }
                 }
                 dmfr::FeedSpec::GtfsRt => {
                     //println!("{} is GTFS Realtime and not assigned to a Chateau", feed_id);
