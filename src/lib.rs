@@ -17,7 +17,7 @@ pub struct OperatorPairInfo {
 
 #[derive(Debug, Clone)]
 pub struct Chateau {
-    chateau_name: String,
+    chateau_id: String,
     realtime_feeds: HashSet<String>,
     static_feeds: HashSet<String>,
 }
@@ -170,7 +170,7 @@ pub fn chateau(dmfr_result: &ReturnDmfrAnalysis) -> HashMap<String, Chateau> {
                 chateaus.insert(
                     chateau_id.clone(),
                     Chateau {
-                        chateau_name: chateau_id.clone(),
+                        chateau_id: chateau_id.clone(),
                         realtime_feeds: classification_result.realtime_feeds,
                         static_feeds: classification_result.static_feeds,
                     },
@@ -204,7 +204,7 @@ pub fn chateau(dmfr_result: &ReturnDmfrAnalysis) -> HashMap<String, Chateau> {
                     chateaus.insert(
                         chateau_id.clone(),
                         Chateau {
-                            chateau_name: chateau_id.clone(),
+                            chateau_id: chateau_id.clone(),
                             realtime_feeds: HashSet::new(),
                             static_feeds: HashSet::from_iter([feed_id.clone()]),
                         },
