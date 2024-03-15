@@ -17,9 +17,9 @@ pub struct OperatorPairInfo {
 
 #[derive(Debug, Clone)]
 pub struct Chateau {
-    chateau_id: String,
-    realtime_feeds: HashSet<String>,
-    static_feeds: HashSet<String>,
+    pub chateau_id: String,
+    pub realtime_feeds: HashSet<String>,
+    pub static_feeds: HashSet<String>,
 }
 
 pub type FeedId = String;
