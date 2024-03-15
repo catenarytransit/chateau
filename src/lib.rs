@@ -5,6 +5,10 @@ use std::collections::{HashMap, HashSet};
 use std::fs;
 use std::sync::Arc;
 
+#[macro_use]
+extern crate lazy_static;
+use lazy_static::lazy_static;
+
 #[derive(Debug, Clone)]
 pub struct OperatorPairInfo {
     pub operator_id: String,
@@ -24,6 +28,24 @@ pub type OperatorId = String;
 pub struct ClassifyFeedResults {
     realtime_feeds: HashSet<String>,
     static_feeds: HashSet<String>,
+}
+
+lazy_static! {
+    static ref FORCE_NAMING_CHATEAU: HashMap<&'static str, &'static str> = {
+        let mut m = HashMap::new();
+        m.insert("f-9mu-mts","san-diego-mts");
+        m.insert("f-9-amtrak~amtrakcalifornia~amtrakcharteredvehicle", "amtrak");
+        m.insert("f-gc-citylink", "citylink-ireland");
+        m.insert("f-dp4j-citybus", "citybus-lafayette-indiana");
+        m.insert("f-dp04-smtd", "sangamon-mass-transit-illinois");
+        m.insert("f-9qd-mercedthebus~ca~us", "merced-california");
+        m.insert("f-davenport~citi~bus", "davenport-city-bus-iowa");
+        m.insert("f-9t9-suntran", "suntran-arizona");
+        m.insert("f-dpq-metro", "akron-ohio-rta-usa");
+        m.insert("f-9zv-twin~cities~minnesota", "twin-cities-minnesota-usa");
+        m.insert("f-dpc5-valleytransit","appleton-wisconsin-valleytransit");
+        m
+    };
 }
 
 pub fn classify_feed_list(
@@ -144,14 +166,18 @@ pub fn chateau(dmfr_result: &ReturnDmfrAnalysis) -> HashMap<String, Chateau> {
             let classification_result =
                 classify_feed_list_raw(&feed_list, &dmfr_result.feed_hashmap);
 
-            chateaus.insert(
-                chateau_id.clone(),
-                Chateau {
-                    chateau_name: chateau_id.clone(),
-                    realtime_feeds: classification_result.realtime_feeds,
-                    static_feeds: classification_result.static_feeds,
-                },
-            );
+            if !chateaus.contains_key(&chateau_id) {
+                chateaus.insert(
+                    chateau_id.clone(),
+                    Chateau {
+                        chateau_name: chateau_id.clone(),
+                        realtime_feeds: classification_result.realtime_feeds,
+                        static_feeds: classification_result.static_feeds,
+                    },
+                );
+            } else {
+                eprintln!("Chateau {} already exists, trying to insert {:?} / {:?}",chateau_id,classification_result.static_feeds, classification_result.realtime_feeds);
+            }
         }
     }
 
@@ -249,12 +275,11 @@ fn determine_chateau_name(
     current_operator_stack: &HashSet<String>,
     current_feed_stack: &HashSet<String>,
 ) -> String {
-    if current_feed_stack.contains("f-9mu-mts") {
-        return String::from("san-diego-mts");
-    }
 
-    if current_feed_stack.contains("f-9-amtrak~amtrakcalifornia~amtrakcharteredvehicle") {
-        return String::from("amtrak");
+    for feed_id in current_feed_stack {
+        if let Some(chateau_id) = FORCE_NAMING_CHATEAU.get(feed_id.as_str()) {
+            return String::from(*chateau_id);
+        }
     }
 
     if current_operator_stack.len() == 1 {
