@@ -46,6 +46,7 @@ lazy_static! {
         m.insert("f-dpc5-valleytransit","appleton-wisconsin-valleytransit");
         m.insert("f-mta~nyc~rt~bustime", "nyct");
         m.insert("f-9q8y-sfmta", "san-francisco-bay-area");
+        m.insert("f-translink~rt", "vancouver-british-columbia-canada");
         m
     };
 }
