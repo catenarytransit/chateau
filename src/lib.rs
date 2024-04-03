@@ -44,6 +44,8 @@ lazy_static! {
         m.insert("f-dpq-metro", "akron-ohio-rta-usa");
         m.insert("f-9zv-twin~cities~minnesota", "twin-cities-minnesota-usa");
         m.insert("f-dpc5-valleytransit","appleton-wisconsin-valleytransit");
+        m.insert("f-mta~nyc~rt~bustime", "nyct");
+        m.insert("f-9q8y-sfmta", "san-francisco-bay-area")
         m
     };
 }
@@ -286,19 +288,25 @@ fn determine_chateau_name(
     }
 
     if current_operator_stack.len() == 1 {
-        for operator_id in current_operator_stack.iter() {
-            return name_chateau_from_id(operator_id);
-        }
+        let mut current_operator_stack_sorted = current_operator_stack.iter().map(|x| x.clone()).collect::<Vec<String>>();
+        current_operator_stack_sorted.sort();
+        
+        return name_chateau_from_id(current_operator_stack_sorted[0].as_str());
+        
     }
 
     if current_feed_stack.len() == 1 {
-        for feed_id in current_feed_stack.iter() {
-            return name_chateau_from_id(feed_id);
-        }
+        let mut current_feed_stack_sorted = current_feed_stack.iter().map(|x| x.clone()).collect::<Vec<String>>();
+        current_feed_stack_sorted.sort();
+        
+        return name_chateau_from_id(current_feed_stack_sorted[0].as_str());
+        
     }
 
-    for operator_id in current_operator_stack.iter() {
-        return name_chateau_from_id(operator_id);
+    if current_operator_stack.len() >= 1 {
+        let mut current_operator_stack_sorted = current_operator_stack.iter().map(|x| x.clone()).collect::<Vec<String>>();
+        current_operator_stack_sorted.sort();
+        return name_chateau_from_id(current_operator_stack_sorted[0].as_str());
     }
 
     //this will never reach as the current operator stack is by minimum 1 in length
