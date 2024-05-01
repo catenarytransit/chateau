@@ -137,6 +137,10 @@ pub fn chateau(dmfr_result: &ReturnDmfrAnalysis) -> HashMap<String, Chateau> {
             // println!("{:?}", feed_list);
             // println!("{}", &operator_id);
 
+            if (operator_id == "o-9mu-irvine~california~usa") {
+                println!("Does not contain o-9mu-irvine~california~usa in the spent operator list yet");
+            }
+
             let mut current_operator_stack: HashSet<String> = HashSet::new();
             let mut current_feed_stack: HashSet<String> = HashSet::new();
 
