@@ -33,8 +33,11 @@ pub struct ClassifyFeedResults {
 lazy_static! {
     static ref FORCE_NAMING_CHATEAU: HashMap<&'static str, &'static str> = {
         let mut m = HashMap::new();
-        m.insert("f-9mu-mts","san-diego-mts");
-        m.insert("f-9-amtrak~amtrakcalifornia~amtrakcharteredvehicle", "amtrak");
+        m.insert("f-9mu-mts", "san-diego-mts");
+        m.insert(
+            "f-9-amtrak~amtrakcalifornia~amtrakcharteredvehicle",
+            "amtrak",
+        );
         m.insert("f-gc-citylink", "citylink-ireland");
         m.insert("f-dp4j-citybus", "citybus-lafayette-indiana");
         m.insert("f-dp04-smtd", "sangamon-mass-transit-illinois");
@@ -43,7 +46,7 @@ lazy_static! {
         m.insert("f-9t9-suntran", "suntran-arizona");
         m.insert("f-dpq-metro", "akron-ohio-rta-usa");
         m.insert("f-9zv-twin~cities~minnesota", "twin-cities-minnesota-usa");
-        m.insert("f-dpc5-valleytransit","appleton-wisconsin-valleytransit");
+        m.insert("f-dpc5-valleytransit", "appleton-wisconsin-valleytransit");
         m.insert("f-mta~nyc~rt~bustime", "nyct");
         m.insert("f-9q8y-sfmta", "san-francisco-bay-area");
         m.insert("f-translink~rt", "vancouver-british-columbia-canada");
@@ -138,7 +141,9 @@ pub fn chateau(dmfr_result: &ReturnDmfrAnalysis) -> HashMap<String, Chateau> {
             // println!("{}", &operator_id);
 
             if (operator_id == "o-9mu-irvine~california~usa") {
-                println!("Does not contain o-9mu-irvine~california~usa in the spent operator list yet");
+                println!(
+                    "Does not contain o-9mu-irvine~california~usa in the spent operator list yet"
+                );
             }
 
             let mut current_operator_stack: HashSet<String> = HashSet::new();
@@ -184,7 +189,12 @@ pub fn chateau(dmfr_result: &ReturnDmfrAnalysis) -> HashMap<String, Chateau> {
                     },
                 );
             } else {
-                eprintln!("Chateau {} already exists, trying to insert {:?} / {:?}",chateau_id,classification_result.static_feeds, classification_result.realtime_feeds);
+                eprintln!(
+                    "Chateau {} already exists, trying to insert {:?} / {:?}",
+                    chateau_id,
+                    classification_result.static_feeds,
+                    classification_result.realtime_feeds
+                );
             }
         }
     }
@@ -209,17 +219,20 @@ pub fn chateau(dmfr_result: &ReturnDmfrAnalysis) -> HashMap<String, Chateau> {
 
                     let chateau_id = name_chateau_from_id(&feed_id);
                     if !chateaus.contains_key(&chateau_id) {
-                    chateaus.insert(
-                        chateau_id.clone(),
-                        Chateau {
-                            chateau_id: chateau_id.clone(),
-                            realtime_feeds: HashSet::new(),
-                            static_feeds: HashSet::from_iter([feed_id.clone()]),
-                        },
-                    );
-                } else {
-                    eprintln!("Chateau {} already exists, trying to insert {:?}",chateau_id,feed_id);
-                }
+                        chateaus.insert(
+                            chateau_id.clone(),
+                            Chateau {
+                                chateau_id: chateau_id.clone(),
+                                realtime_feeds: HashSet::new(),
+                                static_feeds: HashSet::from_iter([feed_id.clone()]),
+                            },
+                        );
+                    } else {
+                        eprintln!(
+                            "Chateau {} already exists, trying to insert {:?}",
+                            chateau_id, feed_id
+                        );
+                    }
                 }
                 dmfr::FeedSpec::GtfsRt => {
                     //println!("{} is GTFS Realtime and not assigned to a Chateau", feed_id);
@@ -286,7 +299,6 @@ fn determine_chateau_name(
     current_operator_stack: &HashSet<String>,
     current_feed_stack: &HashSet<String>,
 ) -> String {
-
     for feed_id in current_feed_stack {
         if let Some(chateau_id) = FORCE_NAMING_CHATEAU.get(feed_id.as_str()) {
             return String::from(*chateau_id);
@@ -294,23 +306,30 @@ fn determine_chateau_name(
     }
 
     if current_operator_stack.len() == 1 {
-        let mut current_operator_stack_sorted = current_operator_stack.iter().map(|x| x.clone()).collect::<Vec<String>>();
+        let mut current_operator_stack_sorted = current_operator_stack
+            .iter()
+            .map(|x| x.clone())
+            .collect::<Vec<String>>();
         current_operator_stack_sorted.sort();
-        
+
         return name_chateau_from_id(current_operator_stack_sorted[0].as_str());
-        
     }
 
     if current_feed_stack.len() == 1 {
-        let mut current_feed_stack_sorted = current_feed_stack.iter().map(|x| x.clone()).collect::<Vec<String>>();
+        let mut current_feed_stack_sorted = current_feed_stack
+            .iter()
+            .map(|x| x.clone())
+            .collect::<Vec<String>>();
         current_feed_stack_sorted.sort();
-        
+
         return name_chateau_from_id(current_feed_stack_sorted[0].as_str());
-        
     }
 
     if current_operator_stack.len() >= 1 {
-        let mut current_operator_stack_sorted = current_operator_stack.iter().map(|x| x.clone()).collect::<Vec<String>>();
+        let mut current_operator_stack_sorted = current_operator_stack
+            .iter()
+            .map(|x| x.clone())
+            .collect::<Vec<String>>();
         current_operator_stack_sorted.sort();
         return name_chateau_from_id(current_operator_stack_sorted[0].as_str());
     }
