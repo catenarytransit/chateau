@@ -1,5 +1,5 @@
 use dmfr::*;
-use dmfr_folder_reader::*;
+use dmfr_dataset_reader::*;
 use serde_json::Error as SerdeError;
 use std::collections::{HashMap, HashSet};
 use std::fs;
@@ -53,7 +53,7 @@ lazy_static! {
 }
 
 pub fn classify_feed_list(
-    list_of_feeds: &Vec<dmfr_folder_reader::FeedPairInfo>,
+    list_of_feeds: &Vec<dmfr_dataset_reader::FeedPairInfo>,
     dmfr_result_feeds: &HashMap<FeedId, dmfr::Feed>,
 ) -> ClassifyFeedResults {
     let mut realtime_feeds: HashSet<String> = HashSet::new();
