@@ -51,6 +51,7 @@ lazy_static! {
         m.insert("f-9q8y-sfmta", "san-francisco-bay-area");
         m.insert("f-translink~rt", "vancouver-british-columbia-canada");
         m.insert("f-rhzx-translink~cairns", "translink-queensland-au");
+        m.insert("f-r6-nswtrainlink~sydneytrains~buswayswesternsydney~interlinebus", "new-south-wales");
         m
     };
 }
