@@ -7,6 +7,6 @@ edition = "2021"
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
 regress = "0.10"
-dmfr = "0.1"
+dmfr = "0.2"
 dmfr-dataset-reader = {version = "0.2"}
 lazy_static = "1.5.0"
