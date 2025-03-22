@@ -55,6 +55,7 @@ lazy_static! {
         m.insert("f-u0-switzerland", "schweiz");
         m.insert("f-germany~long~distance~rail", "deutschland");
         m.insert("f-gtfs~de", "deutschland");
+        m.insert("f-u0-sncf~ter", "sncf");
         m
     };
 }
