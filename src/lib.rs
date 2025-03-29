@@ -56,7 +56,8 @@ lazy_static! {
         m.insert("f-germany~long~distance~rail", "deutschland");
         m.insert("f-gtfs~de", "deutschland");
         m.insert("f-u0-sncf~ter", "sncf");
-        m.insert("f-u4-ruter~flybussen~stfoldkollektivtrafikk~hedmarktrafikk~oppla", "norway");
+        m.insert("f-u4-ruter~flybussen~stfoldkollektivtrafikk~hedmarktrafikk~oppla", "noreg");
+        m.insert("f-u-se", "sverige");
         m
     };
 }
