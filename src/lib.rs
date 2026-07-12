@@ -59,6 +59,7 @@ lazy_static! {
         m.insert("f-u4-ruter~flybussen~stfoldkollektivtrafikk~hedmarktrafikk~oppla", "norge");
         m.insert("f-u-se", "sverige");
         m.insert("f-u-nl", "nederland");
+        m.insert("f-u3-günterangergüterverkehrsgmbh~coomnibusvermietungkg~fritzbeh", "vbb");
         m
     };
 }
