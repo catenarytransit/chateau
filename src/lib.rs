@@ -55,6 +55,8 @@ lazy_static! {
         m.insert("f-u0-switzerland", "schweiz");
         m.insert("f-germany~long~distance~rail", "deutschland");
         m.insert("f-gtfs~de", "deutschland");
+        m.insert("f-gtfs~de~sachsen", "deutschland");
+        m.insert("f-tlms~rt", "deutschland");
         m.insert("f-u0-sncf~ter", "sncf");
         m.insert("f-u4-ruter~flybussen~stfoldkollektivtrafikk~hedmarktrafikk~oppla", "norge");
         m.insert("f-u-se", "sverige");
