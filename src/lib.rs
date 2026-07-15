@@ -51,17 +51,26 @@ lazy_static! {
         m.insert("f-9q8y-sfmta", "san-francisco-bay-area");
         m.insert("f-translink~rt", "vancouver-british-columbia-canada");
         m.insert("f-rhzx-translink~cairns", "translink-queensland-au");
-        m.insert("f-r6-nswtrainlink~sydneytrains~buswayswesternsydney~interlinebus", "new-south-wales");
+        m.insert(
+            "f-r6-nswtrainlink~sydneytrains~buswayswesternsydney~interlinebus",
+            "new-south-wales",
+        );
         m.insert("f-u0-switzerland", "schweiz");
         m.insert("f-germany~long~distance~rail", "deutschland");
         m.insert("f-gtfs~de", "deutschland");
         m.insert("f-gtfs~de~sachsen", "deutschland");
         m.insert("f-tlms~rt", "deutschland");
         m.insert("f-u0-sncf~ter", "sncf");
-        m.insert("f-u4-ruter~flybussen~stfoldkollektivtrafikk~hedmarktrafikk~oppla", "norge");
+        m.insert(
+            "f-u4-ruter~flybussen~stfoldkollektivtrafikk~hedmarktrafikk~oppla",
+            "norge",
+        );
         m.insert("f-u-se", "sverige");
         m.insert("f-u-nl", "nederland");
-        m.insert("f-u3-günterangergüterverkehrsgmbh~coomnibusvermietungkg~fritzbeh", "vbb");
+        m.insert(
+            "f-u3-günterangergüterverkehrsgmbh~coomnibusvermietungkg~fritzbeh",
+            "vbb",
+        );
         m
     };
 }
@@ -190,23 +199,21 @@ pub fn chateau(dmfr_result: &ReturnDmfrAnalysis) -> HashMap<String, Chateau> {
             let classification_result =
                 classify_feed_list_raw(&feed_list, &dmfr_result.feed_hashmap);
 
-            if !chateaus.contains_key(&chateau_id) {
-                chateaus.insert(
-                    chateau_id.clone(),
-                    Chateau {
-                        chateau_id: chateau_id.clone(),
-                        realtime_feeds: classification_result.realtime_feeds,
-                        static_feeds: classification_result.static_feeds,
-                    },
-                );
-            } else {
-                eprintln!(
-                    "Chateau {} already exists, trying to insert {:?} / {:?}",
-                    chateau_id,
-                    classification_result.static_feeds,
-                    classification_result.realtime_feeds
-                );
-            }
+            let chateau = chateaus
+                .entry(chateau_id.clone())
+                .or_insert_with(|| Chateau {
+                    chateau_id: chateau_id.clone(),
+                    realtime_feeds: HashSet::new(),
+                    static_feeds: HashSet::new(),
+                });
+
+            chateau
+                .static_feeds
+                .extend(classification_result.static_feeds);
+
+            chateau
+                .realtime_feeds
+                .extend(classification_result.realtime_feeds);
         }
     }
 
@@ -225,29 +232,22 @@ pub fn chateau(dmfr_result: &ReturnDmfrAnalysis) -> HashMap<String, Chateau> {
         if !already_assigned_feeds.contains(feed_id) {
             match feed.spec {
                 dmfr::FeedSpec::Gtfs => {
-                    //  println!("{} is GTFS Schedule and not assigned to a Chateau", feed_id);
-                    counter_of_unassigned_feeds = counter_of_unassigned_feeds + 1;
+                    counter_of_unassigned_feeds += 1;
 
-                    let chateau_id = name_chateau_from_id(&feed_id);
-                    if !chateaus.contains_key(&chateau_id) {
-                        chateaus.insert(
-                            chateau_id.clone(),
-                            Chateau {
-                                chateau_id: chateau_id.clone(),
-                                realtime_feeds: HashSet::new(),
-                                static_feeds: HashSet::from_iter([feed_id.clone()]),
-                            },
-                        );
-                    } else {
-                        eprintln!(
-                            "Chateau {} already exists, trying to insert {:?}",
-                            chateau_id, feed_id
-                        );
-                    }
+                    let chateau_id = name_chateau_from_id(feed_id);
+                    
+                    let chateau = chateaus
+                        .entry(chateau_id.clone())
+                        .or_insert_with(|| Chateau {
+                            chateau_id: chateau_id.clone(),
+                            realtime_feeds: HashSet::new(),
+                            static_feeds: HashSet::new(),
+                        });
+
+                    chateau.static_feeds.insert(feed_id.clone());
                 }
                 dmfr::FeedSpec::GtfsRt => {
-                    //println!("{} is GTFS Realtime and not assigned to a Chateau", feed_id);
-                    counter_of_unassigned_rt_feeds = counter_of_unassigned_rt_feeds + 1;
+                    counter_of_unassigned_rt_feeds += 1;
                 }
                 _ => {}
             }
