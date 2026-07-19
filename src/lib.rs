@@ -71,6 +71,7 @@ lazy_static! {
             "f-u3-günterangergüterverkehrsgmbh~coomnibusvermietungkg~fritzbeh",
             "vbb",
         );
+        m.insert("f-rejseplanen~dk~gtfs", "danmark");
         m
     };
 }
