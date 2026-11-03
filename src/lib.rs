@@ -53,7 +53,15 @@ lazy_static! {
         m.insert("f-rhzx-translink~cairns", "translink-queensland-au");
         m.insert(
             "f-r6-nswtrainlink~sydneytrains~buswayswesternsydney~interlinebus",
-            "new-south-wales",
+            "nsw",
+        );
+         m.insert(
+            "f-nsw2~alerts~rt",
+            "nsw",
+        );
+        m.insert(
+            "f-nsw2~sydneytrains~rt",
+            "nsw",
         );
         m.insert("f-u0-switzerland", "schweiz");
         m.insert("f-germany~long~distance~rail", "deutschland");
